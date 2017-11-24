@@ -1,0 +1,23 @@
+{
+  "name": "publish",
+  "version": "1.0.0",
+  "description": "post to fb page",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Efabien",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.3.0",
+    "sha1": "^1.1.1",
+    "mongoose": "^4.13.3"
+  }
+}
