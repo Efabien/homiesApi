@@ -12,7 +12,7 @@ module.exports = class {
 		const self = this;
 		Promise.coroutine(function*() {
 			const followedId = req.params.followedId;
-			const user = yield self._userService.getUser({ fbId: req.body.fbId });
+			const user = yield self._userService.get({ fbId: req.body.fbId });
 			user.userFollowed.push(ObjectId(followedId));
 			user.save();
 			res.json({ ok: true });

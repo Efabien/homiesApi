@@ -10,10 +10,12 @@ const userService = new UserService(User);
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
 const FollowUserRoute = require('./api/follow-user-route');
+const UpdateUserRoute = require('./api/update-user-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
 const followUser = new FollowUserRoute(userService);
+const updateUser = new UpdateUserRoute(userService);
 
 //defining routes
 router.get('/', (req,res) => {
@@ -40,8 +42,9 @@ router.get('/', (req,res) => {
 	}
 */
 
-router.post('/create/users', createUser.handler);
-router.get('/users/:fbId', getUser.handler);
+router.post('/user', createUser.handler);
+router.get('/user/:fbId', getUser.handler);
+router.patch('/user/:fbId', updateUser.handler);
 /**
 	body: {
 		fbId: 'aedfvbvafabvmarg'

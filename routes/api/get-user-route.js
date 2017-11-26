@@ -11,7 +11,7 @@ module.exports = class {
 		const self = this;
 		Promise.coroutine(function*() {
 			const fbId = req.params.fbId;
-			const users = yield self._userService.getUsers();
+			const users = yield self._userService.getAll();
 			if (fbId === 'all') res.json(users);
 			else res.json(users.find(user => user.fbId = fbId));
 		})();
