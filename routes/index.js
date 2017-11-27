@@ -11,12 +11,14 @@ const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
 const UserFollowedRoute = require('./api/user-followed-route');
 const FollowUserRoute = require('./api/follow-user-route');
+const UnfollowUserRoute = require('./api/unfollow-user-route');
 const UpdateUserRoute = require('./api/update-user-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
 const userFollowed = new UserFollowedRoute(userService);
 const followUser = new FollowUserRoute(userService);
+const unfollowUser = new UnfollowUserRoute(userService);
 const updateUser = new UpdateUserRoute(userService);
 
 //defining routes
@@ -57,5 +59,6 @@ router.patch('/user/:fbId', updateUser.handler);
 	}
 */
 router.post('/follow/user/:followedId', followUser.handler);
+router.post('/unfollow/user/:followedId', unfollowUser.handler);
 
 exports.router = router;

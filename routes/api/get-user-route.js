@@ -13,7 +13,7 @@ module.exports = class {
 			const fbId = req.params.fbId;
 			const users = yield self._userService.getAll();
 			if (fbId === 'all') res.json(users);
-			else res.json(users.find(user => user.fbId = fbId));
+			else res.json(users.find(user => user.fbId === fbId));
 		})();
 	}
 }
