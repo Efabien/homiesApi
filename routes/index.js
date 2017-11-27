@@ -9,11 +9,13 @@ const userService = new UserService(User);
 
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
+const UserFollowedRoute = require('./api/user-followed-route');
 const FollowUserRoute = require('./api/follow-user-route');
 const UpdateUserRoute = require('./api/update-user-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
+const userFollowed = new UserFollowedRoute(userService);
 const followUser = new FollowUserRoute(userService);
 const updateUser = new UpdateUserRoute(userService);
 
@@ -44,6 +46,7 @@ router.get('/', (req,res) => {
 
 router.post('/user', createUser.handler);
 router.get('/user/:fbId', getUser.handler);
+router.get('/user/:fbId/followed', userFollowed.handler);
 router.patch('/user/:fbId', updateUser.handler);
 /**
 	body: {

@@ -17,7 +17,22 @@ module.exports = class {
 	}
 
 	get(filter) {
+		return this._model.find(filter)
+		.then(doc => doc);
+	}
+
+	getOne(filter) {
 		return this._model.findOne(filter)
+		.then(doc => doc);
+	}
+
+	pick(filter, projection) {
+		return this._model.find(filter, projection)
+		.then(doc => doc);
+	}
+
+	pickOne(filter, projection) {
+		return this._model.findOne(filter, projection)
 		.then(doc => doc);
 	}
 
