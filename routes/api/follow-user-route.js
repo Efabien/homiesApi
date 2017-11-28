@@ -13,7 +13,7 @@ module.exports = class {
 		Promise.coroutine(function*() {
 			const followedId = req.params.followedId;
 			const user = yield self._userService.getOne({ fbId: req.body.fbId });
-			user.userFollowed.push(ObjectId(followedId));
+			user.userFollowed.push(followedId);
 			user.save();
 			res.json({ ok: true });
 		})();

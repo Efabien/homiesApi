@@ -8,7 +8,7 @@ const userSchema = new db.Schema({
 	locale: String,
 	timezone: Number,
 	fbId: String ,
-	userFollowed: [{ type: ObjectId, ref: 'User' }],
+	userFollowed: [String],
 	spotFollowed: [{ type: ObjectId, ref: 'Spot' }],
 	creationDate: Date
 });
@@ -19,14 +19,14 @@ const spotSchema = new db.Schema({
 });
 
 const sessionSchema = new db.Schema({
-	organizer: { type: ObjectId, ref: 'User' },
-	attendees: [{ type: ObjectId, ref: 'User' }],
+	organizer: String,
+	attendees: [String],
 	spot: { type: ObjectId, ref: 'Spot' },
 	start: Date,
 	end: Date
 });
 
 exports.User = db.model('User', userSchema);
-const Session = db.model('Session', sessionSchema);
+exports.Session = db.model('Session', sessionSchema);
 exports.Spot = db.model('Spot', spotSchema);
 

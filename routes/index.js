@@ -3,9 +3,12 @@ const router = express.Router();
 
 const Models = require('../models');
 const User = Models.User;
+const Session = Models.Session;
 
 const UserService = require('../modules/user-services');
+const SessionService = require('../modules/session-services');
 const userService = new UserService(User);
+const sessionService = new SessionService(Session);
 
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
@@ -13,6 +16,8 @@ const UserFollowedRoute = require('./api/user-followed-route');
 const FollowUserRoute = require('./api/follow-user-route');
 const UnfollowUserRoute = require('./api/unfollow-user-route');
 const UpdateUserRoute = require('./api/update-user-route');
+const CreateSessionRoute = require('./api/create-session-route');
+const GetSessionRoute = require('./api/get-session-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
@@ -20,6 +25,8 @@ const userFollowed = new UserFollowedRoute(userService);
 const followUser = new FollowUserRoute(userService);
 const unfollowUser = new UnfollowUserRoute(userService);
 const updateUser = new UpdateUserRoute(userService);
+const createSession = new CreateSessionRoute(sessionService);
+const getSession = new GetSessionRoute(sessionService, userService);
 
 //defining routes
 router.get('/', (req,res) => {
@@ -60,5 +67,16 @@ router.patch('/user/:fbId', updateUser.handler);
 */
 router.post('/follow/user/:followedId', followUser.handler);
 router.post('/unfollow/user/:followedId', unfollowUser.handler);
+
+/**
+body: {
+	organizer: 'fbId',
+	spot: '5a1d63579b4f4b15e4f1ba45', //valid ObjectId
+	start: '2011-10-05T14:48:00.000Z', //ISO string
+	end: '2011-10-05T15:48:00.000Z'
+}
+*/
+router.post('/session', createSession.handler);
+router.get('/session', getSession.handler);
 
 exports.router = router;
