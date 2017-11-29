@@ -18,13 +18,16 @@ module.exports = class {
 			const spot = req.query.spot;
 			const start = req.query.start;
 			const end = req.query.end;
+			const organizedOnly = req.query.organizedOnly;
 			let allSesh = yield self._sessionService.getAll();
 			if (_id) allSesh = allSesh.filter(sesh => sesh._id.equals(_id));
 			
-			if (riders) allSesh = allSesh.filter(sesh => {
-				const seshRiders = sesh.attendees.concat([sesh.organizer]);
-				return riders.every(rider => seshRiders.includes(rider));
-			});
+			if (riders) {
+				allSesh = allSesh.filter(sesh => {
+				const seshRiders = organizedOnly? [sesh.organizer] : sesh.attendees.concat([sesh.organizer]);
+					return riders.every(rider => seshRiders.includes(rider));
+				});
+			}
 			
 			if (spot) allSesh = allSesh.filter(sesh => sesh.spot.equals(spot));
 			

@@ -18,6 +18,9 @@ const UnfollowUserRoute = require('./api/unfollow-user-route');
 const UpdateUserRoute = require('./api/update-user-route');
 const CreateSessionRoute = require('./api/create-session-route');
 const GetSessionRoute = require('./api/get-session-route');
+const AttendSessionRoute = require('./api/attend-session-route');
+const NeglectSessionRoute = require('./api/neglect-session-route');
+const UpdateSessionRoute = require('./api/update-session-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
@@ -27,6 +30,9 @@ const unfollowUser = new UnfollowUserRoute(userService);
 const updateUser = new UpdateUserRoute(userService);
 const createSession = new CreateSessionRoute(sessionService);
 const getSession = new GetSessionRoute(sessionService, userService);
+const attendSession = new AttendSessionRoute(sessionService);
+const neglectSession = new NeglectSessionRoute(sessionService);
+const updateSession = new UpdateSessionRoute(sessionService);
 
 //defining routes
 router.get('/', (req,res) => {
@@ -77,6 +83,17 @@ body: {
 }
 */
 router.post('/session', createSession.handler);
+router.patch('/session/:sessionId', updateSession.handler);
 router.get('/session', getSession.handler);
+/**
+body: {
+	fbId: 'foobar'
+}
+response: {
+	ok: true
+}
+*/
+router.post('/attend/:sessionId', attendSession.handler);
+router.post('/neglect/:sessionId', neglectSession.handler);
 
 exports.router = router;
