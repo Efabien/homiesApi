@@ -4,11 +4,14 @@ const router = express.Router();
 const Models = require('../models');
 const User = Models.User;
 const Session = Models.Session;
+const Spot = Models.Spot;
 
 const UserService = require('../modules/user-services');
 const SessionService = require('../modules/session-services');
+const SpotService = require('../modules/spot-services');
 const userService = new UserService(User);
 const sessionService = new SessionService(Session);
+const spotService = new SpotService(Spot);
 
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
@@ -21,6 +24,7 @@ const GetSessionRoute = require('./api/get-session-route');
 const AttendSessionRoute = require('./api/attend-session-route');
 const NeglectSessionRoute = require('./api/neglect-session-route');
 const UpdateSessionRoute = require('./api/update-session-route');
+const DeletionRoute = require('./api/deletion-route');
 
 const createUser = new CreateUserRoute(userService);
 const getUser = new GetUserRoute(userService);
@@ -33,6 +37,7 @@ const getSession = new GetSessionRoute(sessionService, userService);
 const attendSession = new AttendSessionRoute(sessionService);
 const neglectSession = new NeglectSessionRoute(sessionService);
 const updateSession = new UpdateSessionRoute(sessionService);
+const deletion = new DeletionRoute({ userService, sessionService, spotService });
 
 //defining routes
 router.get('/', (req,res) => {
@@ -95,5 +100,7 @@ response: {
 */
 router.post('/attend/:sessionId', attendSession.handler);
 router.post('/neglect/:sessionId', neglectSession.handler);
+
+router.delete('/:type/:id', deletion.handler);
 
 exports.router = router;

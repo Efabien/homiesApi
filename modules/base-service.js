@@ -47,4 +47,12 @@ module.exports = class {
 	expose() {
 		return this._model;
 	}
+
+	deleteById(_id) {
+		return this.getOne({ _id: _id })
+		.then(doc => {
+			doc.remove();
+			return { ok: true };
+		});
+	}
 }
