@@ -11,8 +11,8 @@ module.exports = class {
 	handler(req, res) {
 		const self = this;
 		Promise.coroutine(function*() {
-			const followedId = req.params.followedId;
-			const user = yield self._userService.getOne({ fbId: req.body.fbId });
+			const followedId = req.params.fbId;
+			const user = yield self._userService.getOne({ fbId: req.body.me });
 			user.userFollowed.push(followedId);
 			user.save();
 			res.json({ ok: true });

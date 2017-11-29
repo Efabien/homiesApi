@@ -11,7 +11,7 @@ module.exports = class {
 		Promise.coroutine(function*() {
 			const sessionId = req.params.sessionId;
 			const session = yield self._sessionService.getOne({ _id: sessionId });
-			session.attendees.push(req.body.fbId);
+			session.attendees.push(req.body.me);
 			session.save();
 			res.json({ ok: true });
 		})();

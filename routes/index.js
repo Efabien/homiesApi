@@ -13,6 +13,10 @@ const userService = new UserService(User);
 const sessionService = new SessionService(Session);
 const spotService = new SpotService(Spot);
 
+const NotFoundMiddleware = require('../middlewares/404');
+
+const notFound = new NotFoundMiddleware({ userService, sessionService, SpotService });
+
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
 const UserFollowedRoute = require('./api/user-followed-route');
@@ -65,19 +69,19 @@ router.get('/', (req,res) => {
 */
 
 router.post('/user', createUser.handler);
-router.get('/user/:fbId', getUser.handler);
-router.get('/user/:fbId/followed', userFollowed.handler);
-router.patch('/user/:fbId', updateUser.handler);
+router.get('/user/:fbId', notFound.handler, getUser.handler);
+router.get('/user/:fbId/followed', notFound.handler, userFollowed.handler);
+router.patch('/user/:fbId', notFound.handler, updateUser.handler);
 /**
 	body: {
-		fbId: 'aedfvbvafabvmarg'
+		me: 'aedfvbvafabvmarg'
 	}
 	response: {
 		ok: true
 	}
 */
-router.post('/follow/user/:followedId', followUser.handler);
-router.post('/unfollow/user/:followedId', unfollowUser.handler);
+router.post('/follow/user/:fbId', notFound.handler, followUser.handler);
+router.post('/unfollow/user/:fbId', notFound.handler, unfollowUser.handler);
 
 /**
 body: {
@@ -88,18 +92,18 @@ body: {
 }
 */
 router.post('/session', createSession.handler);
-router.patch('/session/:sessionId', updateSession.handler);
+router.patch('/session/:sessionId', notFound.handler, updateSession.handler);
 router.get('/session', getSession.handler);
 /**
 body: {
-	fbId: 'foobar'
+	me: 'foobar'
 }
 response: {
 	ok: true
 }
 */
-router.post('/attend/:sessionId', attendSession.handler);
-router.post('/neglect/:sessionId', neglectSession.handler);
+router.post('/attend/:sessionId', notFound.handler, attendSession.handler);
+router.post('/neglect/:sessionId', notFound.handler, neglectSession.handler);
 
 router.delete('/:type/:id', deletion.handler);
 
