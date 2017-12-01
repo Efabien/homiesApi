@@ -8,14 +8,11 @@ module.exports = class {
 			spot: services.spotService
 		}
 
-		this.handler = this.handler.bind(this);
+		this.handler = Promise.coroutine(this.handler.bind(this));
 	}
-	handler(req, res) {
-		const self = this;
-		Promise.coroutine(function*() {
-			const service = self._serviceMap[req.params.type];
-			const response = yield service.deleteById(req.params.id);
-			res.json(response);
-		})();
+	*handler(req, res) {
+		const service = this._serviceMap[req.params.type];
+		const response = yield service.deleteById(req.params.id);
+		res.json(response);
 	}
 }

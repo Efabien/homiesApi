@@ -13,7 +13,7 @@ module.exports = class {
 	*userHandler(req, res, next) {
 			const userFbId = req.params.fbId;
 				const user = yield this._userService.getOne({ fbId: userFbId });
-				if (user) return next();
+				if (user || userFbId === 'all') return next();
 				res.json({ error: true , status: 404, message: `User with fbId ${userFbId} not found`});
 	}
 

@@ -4,13 +4,10 @@ module.exports = class {
 	constructor(sessionService) {
 		this._sessionService = sessionService;
 
-		this.handler = this.handler.bind(this);
+		this.handler = Promise.coroutine(this.handler.bind(this));
 	}
-	handler(req, res) {
-		const self = this;
-		Promise.coroutine(function*() {
-			const user = yield self._sessionService.update({ fbId: req.params.fbId }, req.body);
-			res.json(user);
-		})();
+	*handler(req, res) {
+		const user = yield this._sessionService.update({ fbId: req.params.fbId }, req.body);
+		res.json(user);
 	}
 }

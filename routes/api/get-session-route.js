@@ -7,19 +7,17 @@ module.exports = class {
 		this._sessionService = sessionService;
 		this._userService = userService;
 
-		this.handler = this.handler.bind(this)
+		this.handler = Promise.coroutine(this.handler.bind(this));
 	}
 
-	handler(req, res) {
-		const self = this;
-		Promise.coroutine(function*() {
+	*handler(req, res) {
 			const _id = req.query._id;
 			const riders = req.query.riders && req.query.riders.split(',');
 			const spot = req.query.spot;
 			const start = req.query.start;
 			const end = req.query.end;
 			const organizedOnly = req.query.organizedOnly;
-			let allSesh = yield self._sessionService.getAll();
+			let allSesh = yield this._sessionService.getAll();
 			if (_id) allSesh = allSesh.filter(sesh => sesh._id.equals(_id));
 			
 			if (riders) {
@@ -38,6 +36,5 @@ module.exports = class {
 				});
 			}
 			res.json(allSesh);
-		})();
 	}
 }
