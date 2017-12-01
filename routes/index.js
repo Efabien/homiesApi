@@ -15,7 +15,7 @@ const spotService = new SpotService(Spot);
 
 const NotFoundMiddleware = require('../middlewares/404');
 
-const notFound = new NotFoundMiddleware({ userService, sessionService, SpotService });
+const notFound = new NotFoundMiddleware({ userService, sessionService, spotService });
 
 const CreateUserRoute = require('./api/create-user-route');
 const GetUserRoute = require('./api/get-user-route');
@@ -115,6 +115,6 @@ body: {
 */
 router.post('/spot', createSpot.handler);
 
-router.delete('/:type/:id', deletion.handler);
+router.delete('/:type/:id',notFound.handler, deletion.handler);
 
 exports.router = router;
