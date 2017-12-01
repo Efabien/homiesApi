@@ -69,9 +69,9 @@ router.get('/', (req,res) => {
 */
 
 router.post('/user', createUser.handler);
-router.get('/user/:fbId', notFound.handler, getUser.handler);
-router.get('/user/:fbId/followed', notFound.handler, userFollowed.handler);
-router.patch('/user/:fbId', notFound.handler, updateUser.handler);
+router.get('/user/:fbId', notFound.userHandler, getUser.handler);
+router.get('/user/:fbId/followed', notFound.userHandler, userFollowed.handler);
+router.patch('/user/:fbId', notFound.userHandler, updateUser.handler);
 /**
 	body: {
 		me: 'aedfvbvafabvmarg'
@@ -80,8 +80,8 @@ router.patch('/user/:fbId', notFound.handler, updateUser.handler);
 		ok: true
 	}
 */
-router.post('/follow/user/:fbId', notFound.handler, followUser.handler);
-router.post('/unfollow/user/:fbId', notFound.handler, unfollowUser.handler);
+router.post('/follow/user/:fbId', notFound.userHandler, followUser.handler);
+router.post('/unfollow/user/:fbId', notFound.userHandler, unfollowUser.handler);
 
 /**
 body: {
@@ -92,7 +92,7 @@ body: {
 }
 */
 router.post('/session', createSession.handler);
-router.patch('/session/:sessionId', notFound.handler, updateSession.handler);
+router.patch('/session/:sessionId', notFound.sessionHandler, updateSession.handler);
 router.get('/session', getSession.handler);
 /**
 body: {
@@ -102,8 +102,8 @@ response: {
 	ok: true
 }
 */
-router.post('/attend/:sessionId', notFound.handler, attendSession.handler);
-router.post('/neglect/:sessionId', notFound.handler, neglectSession.handler);
+router.post('/attend/:sessionId', notFound.sessionHandler, attendSession.handler);
+router.post('/neglect/:sessionId', notFound.sessionHandler, neglectSession.handler);
 
 router.delete('/:type/:id', deletion.handler);
 

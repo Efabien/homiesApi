@@ -6,25 +6,30 @@ module.exports = class {
 		this._sessionService = services.sessionService;
 		this._spotService = services.spotService;
 
-		this.handler = this.handler.bind(this);
+		this.userHandler = Promise.coroutine(this.userHandler.bind(this));
+		this.sessionHandler = Promise.coroutine(this.sessionHandler.bind(this));
 	}
 
-	handler(req, res, next) {
-		const self = this;
-		Promise.coroutine(function*() {
+	*userHandler(req, res, next) {
 			const userFbId = req.params.fbId;
-			const sessionId = req.params.sessionId;
-			if (!userFbId && !sessionId) return next();
-			if (userFbId) {
-				const user = yield self._userService.getOne({ fbId: userFbId });
+				const user = yield this._userService.getOne({ fbId: userFbId });
 				if (user) return next();
 				res.json({ error: true , status: 404, message: `User with fbId ${userFbId} not found`});
-			}
-			if (sessionId) {
-				const session = yield self._sessionService.getOne({ _id: sessionId });
+	}
+
+	*sessionHandler(req, res, next) {
+			const sessionId = req.params.sessionId;
+			if (!sessionId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
+				const session = yield this._sessionService.getOne({ _id: sessionId });
 				if (session) return next();
 				res.json({ error: true , status: 404, message: `Session with _id ${sessionId} not found`});
-			}
-		})();
+	}
+
+	*spotHandler(req, res, next) {
+			const spotId = req.params.spotId;
+			if (!userFbId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
+				const spot = yield this._spotService.getOne({ _id: spotId });
+				if (spot) return next();
+				res.json({ error: true , status: 404, message: `Spot with _id ${spotId} not found`});
 	}
 }
