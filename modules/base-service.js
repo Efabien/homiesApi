@@ -8,7 +8,7 @@ module.exports = class {
 		return this._model.create(document)
 		.then(() => {
 			return document;
-		})
+		});
 	}
 
 	getAll() {

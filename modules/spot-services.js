@@ -6,8 +6,4 @@ module.exports = class UserSercice extends BaseService {
 	constructor(model) {
 		super(model);
 	}
-
-	create(body) {
-		
-	}
 }

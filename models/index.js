@@ -15,7 +15,8 @@ const userSchema = new db.Schema({
 
 const spotSchema = new db.Schema({
 	name: String,
-	location: String
+	location: String,
+	pics: [String]
 });
 
 const sessionSchema = new db.Schema({
