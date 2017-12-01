@@ -29,7 +29,7 @@ module.exports = class {
 
 	*spotHandler(req, res, next) {
 			const spotId = req.params.spotId;
-			if (!userFbId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
+			if (!spotId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
 				const spot = yield this._spotService.getOne({ _id: spotId });
 				if (spot) return next();
 				res.json({ error: true , status: 404, message: `Spot with _id ${spotId} not found`});

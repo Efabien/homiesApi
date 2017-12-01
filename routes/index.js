@@ -29,6 +29,7 @@ const AttendSessionRoute = require('./api/attend-session-route');
 const NeglectSessionRoute = require('./api/neglect-session-route');
 const UpdateSessionRoute = require('./api/update-session-route');
 const CreateSpotRoute = require('./api/create-spot-route');
+const UpdateSpotRoute = require('./api/update-spot-route');
 const DeletionRoute = require('./api/deletion-route');
 
 const createUser = new CreateUserRoute(userService);
@@ -43,6 +44,7 @@ const attendSession = new AttendSessionRoute(sessionService);
 const neglectSession = new NeglectSessionRoute(sessionService);
 const updateSession = new UpdateSessionRoute(sessionService);
 const createSpot = new CreateSpotRoute(spotService);
+const updateSpot = new UpdateSpotRoute(spotService);
 const deletion = new DeletionRoute({ userService, sessionService, spotService });
 
 //defining routes
@@ -114,6 +116,14 @@ body: {
 }
 */
 router.post('/spot', createSpot.handler);
+/**
+body: {
+	location: "Skate Park Antanimena, ancien SAGRO",
+	name: "Skate Park",
+	pics: ['picsUrl']
+}
+*/
+router.patch('/spot/:spotId',notFound.spotHandler, updateSpot.handler);
 
 router.delete('/:type/:id',notFound.handler, deletion.handler);
 
