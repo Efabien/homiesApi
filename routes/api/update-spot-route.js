@@ -10,8 +10,8 @@ module.exports = class {
 	*handler(req, res) {
 		const pics = req.body.pics;
 		if (pics) {
-			req.body = _.omit(req.body, ['pics']);
-			const toUpdate = yield this._spotService.getOne({ _id: req.params.spotId });
+			const toUpdate = req.body.spot;
+			req.body = _.omit(req.body, ['pics', 'spot']);
 			toUpdate.pics = toUpdate.pics.concat(pics);
 			toUpdate.save();
 		}
