@@ -7,8 +7,7 @@ module.exports = class {
 		this.handler = Promise.coroutine(this.handler.bind(this));
 	}
 	*handler(req, res) {
-			const sessionId = req.params.sessionId;
-			const session = yield this._sessionService.getOne({ _id: sessionId });
+			const session = req.body.session;
 			session.attendees.push(req.body.me);
 			session.save();
 			res.json({ ok: true });

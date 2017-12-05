@@ -15,7 +15,10 @@ module.exports = class {
 	*userHandler(req, res, next) {
 			const userFbId = req.params.fbId;
 				const user = yield this._userService.getOne({ fbId: userFbId });
-				if (user || userFbId === 'all') return next();
+				if (user || userFbId === 'all') {
+					if (userFbId !== 'all') req.body.user = user;
+					return next();
+				}
 				res.json({ error: true , status: 404, message: `User with fbId ${userFbId} not found`});
 	}
 
@@ -23,7 +26,10 @@ module.exports = class {
 			const sessionId = req.params.sessionId;
 			if (!sessionId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
 				const session = yield this._sessionService.getOne({ _id: sessionId });
-				if (session) return next();
+				if (session) {
+					req.body.session = session;
+					return next();
+				}
 				res.json({ error: true , status: 404, message: `Session with _id ${sessionId} not found`});
 	}
 
@@ -31,7 +37,10 @@ module.exports = class {
 			const spotId = req.params.spotId;
 			if (!spotId.match(/^[0-9a-fA-F]{24}$/)) res.json({ error: true, status: 403, message: `Invalid id`});
 				const spot = yield this._spotService.getOne({ _id: spotId });
-				if (spot) return next();
+				if (spot) {
+					req.body.spot = spot;
+					return next();
+				}
 				res.json({ error: true , status: 404, message: `Spot with _id ${spotId} not found`});
 	}
 

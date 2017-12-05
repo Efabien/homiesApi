@@ -8,9 +8,11 @@ module.exports = class {
 	}
 
 	*handler(req, res) {
-			const fbId = req.params.fbId;
-			const users = yield this._userService.getAll();
-			if (fbId === 'all') res.json(users);
-			else res.json(users.find(user => user.fbId === fbId));
+			const user = req.body.user;
+			if (user) res.json(user);
+			else {
+				const users = yield this._userService.getAll();
+				res.json(users);
+			}
 	}
 }

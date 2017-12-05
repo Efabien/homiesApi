@@ -8,10 +8,8 @@ module.exports = class {
 	}
 
 	*handler(req, res) {
-			const user = yield this._userService.pickOne(
-				{ fbId: req.params.fbId },
-				{ userFollowed: 1 });
-			const followedUsers = yield this._userService.get({ _id: { $in: user.userFollowed } });
+			const user = req.body.user;
+			const followedUsers = yield this._userService.get({ fbId: { $in: user.userFollowed } });
 			res.json(followedUsers);
 	}
 }
